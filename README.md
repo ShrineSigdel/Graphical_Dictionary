@@ -21,3 +21,4 @@ This is a simple graphical dictionary application written in C++ using raylib. I
 3. Create a build directory:
    ```bash
    mkdir build && cd build
+   
