@@ -1,10 +1,10 @@
 # Graphical Dictionary App
 
-This is a simple graphical dictionary application written in C++ using raylib. It demonstrates a basic trie data structure and loads words with their definitions from `oxford.txt` and `meaning.txt`.
+This is a simple graphical dictionary application written in C++ using raylib. It demonstrates a basic trie data structure and loads oxford with their definitions from `oxford.txt` and `meaning.txt`.
 
 ## Features
 
-- Loads dictionary words from external text files.
+- Loads dictionary oxford from external text files.
 - Uses a trie data structure for quick word lookup.
 - A minimal UI that accepts user input.
 - Displays the definition of the entered word (if available).
