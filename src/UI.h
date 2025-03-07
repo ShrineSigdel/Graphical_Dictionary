@@ -5,8 +5,10 @@
 #include <vector>
 #include <string>
 #include "DictionaryEntry.h"
+#include "Trie.h"
 
-enum Screen {
+enum Screen
+{
     HOME,
     SEARCH
 };
@@ -23,6 +25,6 @@ bool DrawHomeScreen();
 // Search screen: draws the search view, updates the search text, shows suggestions,
 // detects word search via a "Go" button, and displays the meaning.
 // Returns true if the "Back" button is pressed.
-bool DrawSearchScreen(const std::vector<DictionaryEntry> &dictionary);
+bool DrawSearchScreen(TrieNode *dictionary);
 
 #endif // UI_H
