@@ -1,77 +1,61 @@
+#include <iostream>
+#include <fstream>
 #include <string>
+#include <algorithm>
 #include "UI.h"
-#include "Trie.h"
+#include "Trie.h" // Contains getNode(), insert(), getMeaning(), getSuggestions(), etc.
 
-// Forward declaration for the dictionary loader.
-// (You can also place this function in a separate module if desired.)
-TrieNode *LoadDictionary(const std::string &wordsFileName, const std::string &meaningsFileName)
-{
-    TrieNode *root = getNode();
-    FILE *fpWords = fopen(wordsFileName.c_str(), "r");
-    FILE *fpMeanings = fopen(meaningsFileName.c_str(), "r");
-
-    if (!fpWords || !fpMeanings)
-    {
-        // Handle error: you could show a message on the UI if necessary.
-        return root;
-    }
-
-    char wordBuffer[256];
-    char meaningBuffer[1024];
-
-    while (fgets(wordBuffer, sizeof(wordBuffer), fpWords) &&
-           fgets(meaningBuffer, sizeof(meaningBuffer), fpMeanings))
-    {
-        // Remove newline characters if present.
-        std::string word(wordBuffer);
-        std::string meaning(meaningBuffer);
-        if (!word.empty() && word[word.size() - 1] == '\n')
-        {
-            word.pop_back();
-        }
-        if (!meaning.empty() && meaning[meaning.size() - 1] == '\n')
-        {
-            meaning.pop_back();
-        }
-        insert(root, word, meaning);
-    }
-
-    fclose(fpWords);
-    fclose(fpMeanings);
-
-    return root;
-}
-
+// Modified main() that loads the dictionary from file before initializing UI.
 int main()
 {
+    // Create the root node for the trie.
+    TrieNode *dictionary = getNode();
+
+    // Open the files for oxford and meaning.
+    std::ifstream inOxford("oxford.txt"), inMeaning("meaning.txt");
+    if (!inOxford || !inMeaning)
+    {
+        std::cerr << "Error: Could not open dictionary files." << std::endl;
+        return 1;
+    }
+
+    std::string word, meaning;
+    // Read oxford and meaning until end-of-file.
+    while (std::getline(inOxford, word) && std::getline(inMeaning, meaning))
+    {
+        // Optionally, trim newline characters or whitespace here.
+        insert(dictionary, word, meaning);
+    }
+    inOxford.close();
+    inMeaning.close();
+
+    // Set up screen dimensions for the UI.
     const int screenWidth = 1600;
     const int screenHeight = 1000;
-
-    // Load the trie-based dictionary from files.
-    TrieNode *dictionary = LoadDictionary("oxford.txt", "meaning.txt");
 
     // Initialize UI (raylib).
     InitUI(screenWidth, screenHeight);
     SetTargetFPS(60);
 
+    // Screen state management.
     Screen currentScreen = HOME;
-    std::string searchText = "";
+    // (searchText is handled inside UI.cpp, so no local variable is needed here)
 
     // Main application loop.
     while (!WindowShouldClose())
     {
         if (currentScreen == HOME)
         {
+            // Draw the home screen.
             bool goToSearch = DrawHomeScreen();
             if (goToSearch)
             {
-                searchText = ""; // Reset search text.
                 currentScreen = SEARCH;
             }
         }
         else if (currentScreen == SEARCH)
         {
-            // Now DrawSearchScreen accepts a TrieNode* instead of a dummy dictionary.
+            // Draw the search screen, passing the loaded trie dictionary.
             bool goBack = DrawSearchScreen(dictionary);
             if (goBack)
             {

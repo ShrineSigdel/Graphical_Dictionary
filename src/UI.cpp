@@ -176,17 +176,19 @@ bool DrawSearchScreen(TrieNode *dictionary)
         suggestions = getSuggestions(dictionary, searchText);
     }
 
-    // Draw suggestions.
+    // Draw suggestions (only words are shown), limit to 6 suggestions.
     int suggestionY = 200;
     DrawTextEx(sRegularFont, "Suggestions:", (Vector2){100, (float)suggestionY}, 30.0f, 2, DARKBLUE);
     suggestionY += 50;
+    int count = 0;
     for (const auto &suggestion : suggestions)
     {
-        std::string suggestionLine = suggestion.first + " : " + suggestion.second;
-        DrawTextEx(sRegularFont, suggestionLine.c_str(),
+        if (count >= 6) break;
+        DrawTextEx(sRegularFont, suggestion.first.c_str(),
                    (Vector2){100, (float)suggestionY},
                    28.0f, 2, BLACK);
         suggestionY += 50;
+        count++;
     }
 
     // Draw the panel showing the displayed meaning (if available).

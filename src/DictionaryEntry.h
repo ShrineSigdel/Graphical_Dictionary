@@ -3,7 +3,8 @@
 
 #include <string>
 
-struct DictionaryEntry {
+struct DictionaryEntry
+{
     std::string word;
     std::string meaning;
 };
