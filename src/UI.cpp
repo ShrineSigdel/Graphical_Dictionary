@@ -91,14 +91,14 @@ Screen DrawHomeScreen()
     Vector2 introSize = MeasureTextEx(sItalicFont, intro, introFontSize, 2);
     DrawTextEx(sItalicFont, intro,
                (Vector2){screenWidth / 2 - introSize.x / 2, 180},
-               introFontSize, 2, GRAY);
+               introFontSize, 2, BLUE);
 
     // ----- Search Button -----
     Rectangle searchButton = {screenWidth / 2 - 110, screenHeight / 2 - 50, 220, 70};
-    Color searchButtonColor = GRAY;
+    Color searchButtonColor = BLUE; // Set the button background color to blue
     if (CheckCollisionPointRec(GetMousePosition(), searchButton))
     {
-        searchButtonColor = LIGHTGRAY;
+        searchButtonColor = DARKBLUE; // Darker blue when hovered
         if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
         {
             displayedMeaning = "";
@@ -112,27 +112,28 @@ Screen DrawHomeScreen()
     DrawTextEx(sRegularFont, "Search",
                (Vector2){searchButton.x + searchButton.width / 2 - searchTextSize.x / 2,
                          searchButton.y + searchButton.height / 2 - searchTextSize.y / 2},
-               32.0f, 2, BLACK);
+               32.0f, 2, WHITE); // Set text color to white
 
     // ----- Add Word Button -----
     Rectangle addWordButton = {screenWidth / 2 - 110, screenHeight / 2 + 30, 220, 70};
-    Color addWordButtonColor = GRAY;
+    Color addWordButtonColor = BLUE; // Set the button background color to blue
     if (CheckCollisionPointRec(GetMousePosition(), addWordButton))
     {
-        addWordButtonColor = LIGHTGRAY;
+        addWordButtonColor = DARKBLUE; // Darker blue when hovered
         if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
         {
             EndDrawing();
             return ADDWORD;
         }
     }
+
     DrawRectangleRec(addWordButton, addWordButtonColor);
     DrawRectangleLinesEx(addWordButton, 3, DARKBLUE);
     Vector2 addWordTextSize = MeasureTextEx(sRegularFont, "Add Word", 32.0f, 2);
     DrawTextEx(sRegularFont, "Add Word",
                (Vector2){addWordButton.x + addWordButton.width / 2 - addWordTextSize.x / 2,
                          addWordButton.y + addWordButton.height / 2 - addWordTextSize.y / 2},
-               32.0f, 2, BLACK);
+               32.0f, 2, WHITE); // Set text color to white
 
     EndDrawing();
     return HOME;
@@ -173,10 +174,10 @@ bool DrawSearchScreen(TrieNode *dictionary)
 
     // ----- Back Button -----
     Rectangle backButton = {20, 20, 120, 50};
-    Color backButtonColor = GRAY;
+    Color backButtonColor = BLUE; // Set the button background color to blue
     if (CheckCollisionPointRec(GetMousePosition(), backButton))
     {
-        backButtonColor = LIGHTGRAY;
+        backButtonColor = DARKBLUE; // Darker blue when hovered
         if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
         {
             searchText = "";
@@ -187,11 +188,11 @@ bool DrawSearchScreen(TrieNode *dictionary)
     }
     DrawRectangleRec(backButton, backButtonColor);
     DrawRectangleLinesEx(backButton, 3, DARKBLUE);
-    Vector2 backTextSize = MeasureTextEx(sRegularFont, "Back", 28.0f, 2);
-    DrawTextEx(sRegularFont, "Back",
+    Vector2 backTextSize = MeasureTextEx(sRegularFont, "<- Back", 28.0f, 2);
+    DrawTextEx(sRegularFont, "<- Back",
                (Vector2){backButton.x + backButton.width / 2 - backTextSize.x / 2,
                          backButton.y + backButton.height / 2 - backTextSize.y / 2},
-               28.0f, 2, BLACK);
+               28.0f, 2, WHITE); // Set text color to white
 
     // ----- Search Bar -----
     Rectangle searchBar = {100, 120, screenWidth - 320, 60};
@@ -284,29 +285,28 @@ bool DrawSearchScreen(TrieNode *dictionary)
                    26.0f, 2, BLACK);
     }
 
-// ----- Display Recent Searches at Bottom -----
-if (!recentWords.empty())
-{
-    std::string recentDisplay = "Recent: ";
-    for (size_t i = 0; i < recentWords.size(); i++)
+    // ----- Display Recent Searches at Bottom -----
+    if (!recentWords.empty())
     {
-        recentDisplay += recentWords[i];
-        if (i < recentWords.size() - 1)
-            recentDisplay += ", ";
+        std::string recentDisplay = "Recent: ";
+        for (size_t i = 0; i < recentWords.size(); i++)
+        {
+            recentDisplay += recentWords[i];
+            if (i < recentWords.size() - 1)
+                recentDisplay += ", ";
+        }
+
+        int recentY = screenHeight - 70;
+        int boxHeight = 50;
+        int boxWidth = screenWidth - 200;
+
+        Rectangle recentBox = {100, (float)recentY - 10, (float)boxWidth, (float)boxHeight};
+        DrawRectangleRec(recentBox, (Color){230, 230, 230, 255});
+        DrawRectangleLinesEx(recentBox, 2, DARKGRAY);
+
+        DrawTextEx(sRegularFont, recentDisplay.c_str(),
+                   (Vector2){120, (float)recentY}, 32.0f, 2, BLACK);
     }
-
-    int recentY = screenHeight - 70;  
-    int boxHeight = 50;  
-    int boxWidth = screenWidth - 200; 
-
-    Rectangle recentBox = {100, (float)recentY - 10, (float)boxWidth, (float)boxHeight};
-    DrawRectangleRec(recentBox, (Color){230, 230, 230, 255});
-    DrawRectangleLinesEx(recentBox, 2, DARKGRAY); 
-
-    DrawTextEx(sRegularFont, recentDisplay.c_str(),
-               (Vector2){120, (float)recentY}, 32.0f, 2, BLACK);
-}
-
 
     EndDrawing();
     return false;
@@ -337,26 +337,25 @@ bool DrawAddWordScreen(TrieNode *dictionary, const std::string &wordFilename, co
 
     // ----- Back Button -----
     Rectangle backButton = {20, 20, 120, 50};
-    Color backButtonColor = GRAY;
+    Color backButtonColor = BLUE; // Set the button background color to blue
     if (CheckCollisionPointRec(GetMousePosition(), backButton))
     {
-        backButtonColor = LIGHTGRAY;
+        backButtonColor = DARKBLUE; // Darker blue when hovered
         if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
         {
-            wordInput = "";
-            meaningInput = "";
-            activeField = 0;
+            searchText = "";
+            displayedMeaning = "";
             EndDrawing();
             return true;
         }
     }
     DrawRectangleRec(backButton, backButtonColor);
     DrawRectangleLinesEx(backButton, 3, DARKBLUE);
-    Vector2 backTextSize = MeasureTextEx(sRegularFont, "Back", 28.0f, 2);
-    DrawTextEx(sRegularFont, "Back",
+    Vector2 backTextSize = MeasureTextEx(sRegularFont, "<- Back", 28.0f, 2);
+    DrawTextEx(sRegularFont, "<- Back",
                (Vector2){backButton.x + backButton.width / 2 - backTextSize.x / 2,
                          backButton.y + backButton.height / 2 - backTextSize.y / 2},
-               28.0f, 2, BLACK);
+               28.0f, 2, WHITE); // Set text color to white
 
     // ----- Word Input Box -----
     Rectangle wordBox = {200, 120, screenWidth - 420, 60};
@@ -414,10 +413,12 @@ bool DrawAddWordScreen(TrieNode *dictionary, const std::string &wordFilename, co
 
     // ----- Insert Button -----
     Rectangle insertButton = {100, 300, 150, 50};
-    Color insertButtonColor = GRAY;
+    Color insertButtonColor = BLUE; // Changed to blue
+    Color insertTextColor = WHITE;  // Changed to white
+
     if (CheckCollisionPointRec(GetMousePosition(), insertButton))
     {
-        insertButtonColor = LIGHTGRAY;
+        insertButtonColor = DARKBLUE; // Darker blue when hovered
         if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
         {
             insert(dictionary, wordInput, meaningInput);
@@ -436,13 +437,14 @@ bool DrawAddWordScreen(TrieNode *dictionary, const std::string &wordFilename, co
             meaningInput.clear();
         }
     }
+
     DrawRectangleRec(insertButton, insertButtonColor);
-    DrawRectangleLinesEx(insertButton, 3, DARKBLUE);
+    DrawRectangleLinesEx(insertButton, 3, WHITE); // White border
     Vector2 insertTextSize = MeasureTextEx(sRegularFont, "Insert", 28.0f, 2);
     DrawTextEx(sRegularFont, "Insert",
                (Vector2){insertButton.x + insertButton.width / 2 - insertTextSize.x / 2,
                          insertButton.y + insertButton.height / 2 - insertTextSize.y / 2},
-               28.0f, 2, BLACK);
+               28.0f, 2, insertTextColor); // White text
 
     EndDrawing();
     return false;
