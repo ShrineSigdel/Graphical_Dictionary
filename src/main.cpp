@@ -3,18 +3,24 @@
 #include <string>
 #include <algorithm>
 #include "UI.h"
-#include "Trie.h" // Contains getNode(), insert(), getMeaning(), getSuggestions(), etc.
+#include "Trie.h"  // Trie functions: getNode(), insert(), getMeaning(), getSuggestions(), etc.
 
-// Assuming Screen is defined in UI.h like so:
-// enum Screen { HOME, SEARCH, ADDWORD };
-
-// Modified main() that loads the dictionary from file before initializing UI.
+/**
+ * @brief Main function to initialize and run the Dictionary Application.
+ * 
+ * - Loads the dictionary from files into a Trie.
+ * - Initializes the graphical user interface (GUI).
+ * - Manages screen transitions (Home, Search, Add Word).
+ * - Runs the main application loop until the window is closed.
+ * 
+ * @return int Returns 0 on successful execution, 1 if files fail to open.
+ */
 int main()
 {
-    // Create the root node for the trie.
+    // Create the root node for the Trie data structure.
     TrieNode *dictionary = getNode();
 
-    // Open the files for oxford and meaning.
+    // Open the dictionary files (words in "oxford.txt", meanings in "meaning.txt").
     std::ifstream inOxford("oxford.txt"), inMeaning("meaning.txt");
     if (!inOxford || !inMeaning)
     {
@@ -22,59 +28,49 @@ int main()
         return 1;
     }
 
+    // Read words and their meanings from the files and insert them into the Trie.
     std::string word, meaning;
-    // Read oxford and meaning until end-of-file.
     while (std::getline(inOxford, word) && std::getline(inMeaning, meaning))
     {
-        // Optionally, trim newline characters or whitespace here.
         insert(dictionary, word, meaning);
     }
     inOxford.close();
     inMeaning.close();
 
-    // Set up screen dimensions for the UI.
+    // Initialize UI with screen dimensions.
     const int screenWidth = 1600;
     const int screenHeight = 1000;
-
-    // Initialize UI (raylib).
     InitUI(screenWidth, screenHeight);
     SetTargetFPS(60);
 
-    // Screen state management.
+    // Screen state management variable.
     Screen currentScreen = HOME;
 
-    // Main application loop.
+    // Main application loop: Runs until the user closes the window.
     while (!WindowShouldClose())
     {
-        if (currentScreen == HOME)
+        switch (currentScreen)
         {
-            // Draw the home screen and check which button (if any) was pressed.
-            Screen nextScreen = DrawHomeScreen();
-            if (nextScreen != HOME)
-            {
-                currentScreen = nextScreen;
-            }
-        }
-        else if (currentScreen == SEARCH)
-        {
-            // Draw the search screen, passing the loaded trie dictionary.
-            bool goBack = DrawSearchScreen(dictionary);
-            if (goBack)
-            {
-                currentScreen = HOME;
-            }
-        }
-        else if (currentScreen == ADDWORD)
-        {
-            // Draw the add word screen.
-            bool goBack = DrawAddWordScreen(dictionary, "oxford.txt", "meaning.txt");
-            if (goBack)
-            {
-                currentScreen = HOME;
-            }
+            case HOME:
+                // Render the home screen and determine the next screen.
+                currentScreen = DrawHomeScreen();
+                break;
+
+            case SEARCH:
+                // Render the search screen; return to home if back button is pressed.
+                if (DrawSearchScreen(dictionary))
+                    currentScreen = HOME;
+                break;
+
+            case ADDWORD:
+                // Render the add word screen; return to home if back button is pressed.
+                if (DrawAddWordScreen(dictionary, "oxford.txt", "meaning.txt"))
+                    currentScreen = HOME;
+                break;
         }
     }
 
+    // Clean up resources and close the application.
     CloseUI(dictionary);
     return 0;
 }
