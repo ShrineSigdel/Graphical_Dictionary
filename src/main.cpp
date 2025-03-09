@@ -5,6 +5,9 @@
 #include "UI.h"
 #include "Trie.h" // Contains getNode(), insert(), getMeaning(), getSuggestions(), etc.
 
+// Assuming Screen is defined in UI.h like so:
+// enum Screen { HOME, SEARCH, ADDWORD };
+
 // Modified main() that loads the dictionary from file before initializing UI.
 int main()
 {
@@ -21,7 +24,6 @@ int main()
 
     std::string word, meaning;
     // Read oxford and meaning until end-of-file.
-    int i=0;
     while (std::getline(inOxford, word) && std::getline(inMeaning, meaning))
     {
         // Optionally, trim newline characters or whitespace here.
@@ -40,24 +42,32 @@ int main()
 
     // Screen state management.
     Screen currentScreen = HOME;
-    // (searchText is handled inside UI.cpp, so no local variable is needed here)
 
     // Main application loop.
     while (!WindowShouldClose())
     {
         if (currentScreen == HOME)
         {
-            // Draw the home screen.
-            bool goToSearch = DrawHomeScreen();
-            if (goToSearch)
+            // Draw the home screen and check which button (if any) was pressed.
+            Screen nextScreen = DrawHomeScreen();
+            if (nextScreen != HOME)
             {
-                currentScreen = SEARCH;
+                currentScreen = nextScreen;
             }
         }
         else if (currentScreen == SEARCH)
         {
             // Draw the search screen, passing the loaded trie dictionary.
             bool goBack = DrawSearchScreen(dictionary);
+            if (goBack)
+            {
+                currentScreen = HOME;
+            }
+        }
+        else if (currentScreen == ADDWORD)
+        {
+            // Draw the add word screen.
+            bool goBack = DrawAddWordScreen(dictionary, "oxford.txt", "meaning.txt");
             if (goBack)
             {
                 currentScreen = HOME;

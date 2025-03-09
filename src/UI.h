@@ -10,7 +10,8 @@
 enum Screen
 {
     HOME,
-    SEARCH
+    SEARCH,
+    ADDWORD
 };
 
 // Initialize the UI with a specified screen size.
@@ -20,13 +21,13 @@ void InitUI(int width, int height);
 void CloseUI(TrieNode *root);
 
 // Home screen: draws the home view and returns true if the "Search" button is clicked.
-bool DrawHomeScreen();
+Screen DrawHomeScreen();
 
 // Search screen: draws the search view, updates the search text, shows suggestions,
 // detects word search via a "Go" button, and displays the meaning.
 // Returns true if the "Back" button is pressed.
 bool DrawSearchScreen(TrieNode *dictionary);
 
-bool DrawAddWordScreen(TrieNode *dictionary, const std::string &wordFilename, const std::string &meaningFilename)
+bool DrawAddWordScreen(TrieNode *dictionary, const std::string &wordFilename, const std::string &meaningFilename);
 
 #endif // UI_H
