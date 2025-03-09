@@ -16,7 +16,9 @@ TrieNode *getNode() {
 void insert(TrieNode *root, const std::string &word, const std::string &meaning) {
     TrieNode *pCrawl = root;
     for (char ch : word) {
+        ch = tolower(ch);
         int index = ch - 'a';
+        if (index < 0 || index >= ALPHABET_SIZE) continue;
         if (pCrawl->children[index] == nullptr) {
             pCrawl->children[index] = getNode();
         }
@@ -118,4 +120,14 @@ TrieNode *remove(TrieNode *root, const std::string &word) {
         }
     }
     return root;
+}
+
+// Function to delete the entire trie.
+void deleteTrie(TrieNode *&root) {
+    if (!root) return;
+    for (int i = 0; i < ALPHABET_SIZE; i++) {
+        deleteTrie(root->children[i]);
+    }
+    delete root;
+    root = nullptr;
 }

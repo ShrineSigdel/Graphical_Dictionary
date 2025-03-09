@@ -17,7 +17,7 @@ enum Screen
 void InitUI(int width, int height);
 
 // Unload resources and close the window.
-void CloseUI();
+void CloseUI(TrieNode *root);
 
 // Home screen: draws the home view and returns true if the "Search" button is clicked.
 bool DrawHomeScreen();

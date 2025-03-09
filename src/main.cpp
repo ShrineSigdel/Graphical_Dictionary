@@ -21,6 +21,7 @@ int main()
 
     std::string word, meaning;
     // Read oxford and meaning until end-of-file.
+    int i=0;
     while (std::getline(inOxford, word) && std::getline(inMeaning, meaning))
     {
         // Optionally, trim newline characters or whitespace here.
@@ -64,6 +65,6 @@ int main()
         }
     }
 
-    CloseUI();
+    CloseUI(dictionary);
     return 0;
 }
