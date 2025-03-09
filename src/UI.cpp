@@ -35,10 +35,11 @@ void InitUI(int width, int height)
     logoTexture = LoadTexture("../assets/images/logo.png");
 }
 
-void CloseUI()
+void CloseUI(TrieNode *root)
 {
     UnloadTexture(backgroundTexture);
     UnloadTexture(logoTexture);
+    deleteTrie(root);
     CloseWindow();
 }
 

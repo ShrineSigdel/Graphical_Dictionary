@@ -30,4 +30,6 @@ std::vector<std::pair<std::string, std::string>> getSuggestions(TrieNode *root, 
 // Recursively removes a word from the trie.
 TrieNode *remove(TrieNode *root, const std::string &word);
 
+void deleteTrie(TrieNode *&root);
+
 #endif // TRIE_H
