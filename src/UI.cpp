@@ -95,10 +95,10 @@ Screen DrawHomeScreen()
 
     // ----- Search Button -----
     Rectangle searchButton = {screenWidth / 2 - 110, screenHeight / 2 - 50, 220, 70};
-    Color searchButtonColor = BLUE; // Set the button background color to blue
+    Color searchButtonColor = BLUE;
     if (CheckCollisionPointRec(GetMousePosition(), searchButton))
     {
-        searchButtonColor = DARKBLUE; // Darker blue when hovered
+        searchButtonColor = DARKBLUE;
         if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
         {
             displayedMeaning = "";
@@ -112,14 +112,14 @@ Screen DrawHomeScreen()
     DrawTextEx(sRegularFont, "Search",
                (Vector2){searchButton.x + searchButton.width / 2 - searchTextSize.x / 2,
                          searchButton.y + searchButton.height / 2 - searchTextSize.y / 2},
-               32.0f, 2, WHITE); // Set text color to white
+               32.0f, 2, WHITE);
 
     // ----- Add Word Button -----
     Rectangle addWordButton = {screenWidth / 2 - 110, screenHeight / 2 + 30, 220, 70};
-    Color addWordButtonColor = BLUE; // Set the button background color to blue
+    Color addWordButtonColor = BLUE;
     if (CheckCollisionPointRec(GetMousePosition(), addWordButton))
     {
-        addWordButtonColor = DARKBLUE; // Darker blue when hovered
+        addWordButtonColor = DARKBLUE;
         if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
         {
             EndDrawing();
@@ -133,7 +133,7 @@ Screen DrawHomeScreen()
     DrawTextEx(sRegularFont, "Add Word",
                (Vector2){addWordButton.x + addWordButton.width / 2 - addWordTextSize.x / 2,
                          addWordButton.y + addWordButton.height / 2 - addWordTextSize.y / 2},
-               32.0f, 2, WHITE); // Set text color to white
+               32.0f, 2, WHITE);
 
     EndDrawing();
     return HOME;
@@ -174,10 +174,10 @@ bool DrawSearchScreen(TrieNode *dictionary)
 
     // ----- Back Button -----
     Rectangle backButton = {20, 20, 120, 50};
-    Color backButtonColor = BLUE; // Set the button background color to blue
+    Color backButtonColor = BLUE;
     if (CheckCollisionPointRec(GetMousePosition(), backButton))
     {
-        backButtonColor = DARKBLUE; // Darker blue when hovered
+        backButtonColor = DARKBLUE;
         if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
         {
             searchText = "";
@@ -192,7 +192,7 @@ bool DrawSearchScreen(TrieNode *dictionary)
     DrawTextEx(sRegularFont, "<- Back",
                (Vector2){backButton.x + backButton.width / 2 - backTextSize.x / 2,
                          backButton.y + backButton.height / 2 - backTextSize.y / 2},
-               28.0f, 2, WHITE); // Set text color to white
+               28.0f, 2, WHITE);
 
     // ----- Search Bar -----
     Rectangle searchBar = {100, 120, screenWidth - 320, 60};
@@ -337,10 +337,10 @@ bool DrawAddWordScreen(TrieNode *dictionary, const std::string &wordFilename, co
 
     // ----- Back Button -----
     Rectangle backButton = {20, 20, 120, 50};
-    Color backButtonColor = BLUE; // Set the button background color to blue
+    Color backButtonColor = BLUE;
     if (CheckCollisionPointRec(GetMousePosition(), backButton))
     {
-        backButtonColor = DARKBLUE; // Darker blue when hovered
+        backButtonColor = DARKBLUE;
         if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
         {
             searchText = "";
@@ -355,7 +355,7 @@ bool DrawAddWordScreen(TrieNode *dictionary, const std::string &wordFilename, co
     DrawTextEx(sRegularFont, "<- Back",
                (Vector2){backButton.x + backButton.width / 2 - backTextSize.x / 2,
                          backButton.y + backButton.height / 2 - backTextSize.y / 2},
-               28.0f, 2, WHITE); // Set text color to white
+               28.0f, 2, WHITE);
 
     // ----- Word Input Box -----
     Rectangle wordBox = {200, 120, screenWidth - 420, 60};
@@ -413,12 +413,12 @@ bool DrawAddWordScreen(TrieNode *dictionary, const std::string &wordFilename, co
 
     // ----- Insert Button -----
     Rectangle insertButton = {100, 300, 150, 50};
-    Color insertButtonColor = BLUE; // Changed to blue
-    Color insertTextColor = WHITE;  // Changed to white
+    Color insertButtonColor = BLUE;
+    Color insertTextColor = WHITE;
 
     if (CheckCollisionPointRec(GetMousePosition(), insertButton))
     {
-        insertButtonColor = DARKBLUE; // Darker blue when hovered
+        insertButtonColor = DARKBLUE;
         if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
         {
             insert(dictionary, wordInput, meaningInput);
@@ -439,12 +439,12 @@ bool DrawAddWordScreen(TrieNode *dictionary, const std::string &wordFilename, co
     }
 
     DrawRectangleRec(insertButton, insertButtonColor);
-    DrawRectangleLinesEx(insertButton, 3, WHITE); // White border
+    DrawRectangleLinesEx(insertButton, 3, WHITE);
     Vector2 insertTextSize = MeasureTextEx(sRegularFont, "Insert", 28.0f, 2);
     DrawTextEx(sRegularFont, "Insert",
                (Vector2){insertButton.x + insertButton.width / 2 - insertTextSize.x / 2,
                          insertButton.y + insertButton.height / 2 - insertTextSize.y / 2},
-               28.0f, 2, insertTextColor); // White text
+               28.0f, 2, insertTextColor);
 
     EndDrawing();
     return false;
