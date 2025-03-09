@@ -27,4 +27,6 @@ bool DrawHomeScreen();
 // Returns true if the "Back" button is pressed.
 bool DrawSearchScreen(TrieNode *dictionary);
 
+bool DrawAddWordScreen(TrieNode *dictionary, const std::string &wordFilename, const std::string &meaningFilename)
+
 #endif // UI_H
